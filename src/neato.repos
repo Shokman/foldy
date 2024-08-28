@@ -1,0 +1,21 @@
+repositories:
+  neato_base/botvac_node:
+    type: git
+    url: https://github.com/cpeavy2/botvac_node.git
+    version: main
+  neato_base/neato_robot:
+    type: git
+    url: https://github.com/cpeavy2/neato_robot.git
+    version: foxy_devel
+  neato_base/cmd_vel_mux:
+    type: git
+    url: https://github.com/kobuki-base/cmd_vel_mux.git
+    version: devel
+  neato_base/kobuki_velocity_smoother:
+    type: git
+    url: https://github.com/kobuki-base/kobuki_velocity_smoother
+    version: devel
+  neato_base/ecl_tools:
+    type: git
+    url: https://github.com/stonier/ecl_tools
+    version: devel

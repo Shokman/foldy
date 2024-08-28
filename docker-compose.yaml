@@ -1,0 +1,27 @@
+services:
+  ros2-base:
+    image: humble-ros-neato:base
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        ROS_DISTRO: humble
+      target: base
+    stdin_open: true
+    tty: true
+    network_mode: host
+    ipc: host
+    privileged: true
+    environment:
+       - ROS_DOMAIN_ID=42
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"
+
+  neato-base:
+    extends: ros2-base 
+    image: humble-ros-neato:overlay
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: overlay
+    #command: ros2 launch botvac_node botvac_base.launch.py
