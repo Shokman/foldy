@@ -24,4 +24,4 @@ services:
       context: .
       dockerfile: Dockerfile
       target: overlay
-    #command: ros2 launch botvac_node botvac_base.launch.py
+    command: ros2 launch botvac_node botvac_base.launch.py
