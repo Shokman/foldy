@@ -1,0 +1,33 @@
+ARG ROS_DISTRO=humble
+ 
+FROM osrf/ros:{ROS_DISTRO}-desktop as base
+ENV ROS_DISTRO=${ROS_DISTRO}
+SHELL ["/bin/bash", "-c"]
+
+RUN set -euo pipefail
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Get Ubuntu packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    tmux \
+    git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+FROM base AS overlay
+ 
+RUN mkdir -p /root/ws
+COPY ./src/cartographer_config /root/ws/src/cartographer_config
+WORKDIR /root/ws/src
+ 
+WORKDIR /root/ws
+RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
+ && apt-get update -y \
+ && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
+ && colcon build --symlink-install
+
+COPY ./entrypoint.sh /
+RUN chmod +x  /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD ["bash"]

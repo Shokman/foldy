@@ -3,7 +3,7 @@ services:
     image: humble-ros-neato:base
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./dockerfile_neato
       args:
         ROS_DISTRO: humble
       target: base

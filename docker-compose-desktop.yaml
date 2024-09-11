@@ -1,0 +1,23 @@
+services:
+  ros2-desktop:
+    image: osrf/ros:humble-desktop
+    build:
+      context: .
+      dockerfile: ./dockerfile_desktop
+      args:
+        ROS_DISTRO: humble
+      target: base
+    stdin_open: true
+    tty: true
+    network_mode: host
+    ipc: host
+    privileged: true
+    environment:
+       - ROS_DOMAIN_ID=42
+       - DISPLAY=$DISPLAY
+    devices:
+      - "/dev/dri/:/dev/dri/"
+    volumes:
+      - $HOME/.Xauthority:/root/.Xauthority:ro
+    # Configure usb device on the BCM controller
+    command: ros2 launch cartographer_config desktop_cartographer.launch.py
