@@ -26,4 +26,15 @@ services:
       context: .
       dockerfile: Dockerfile
       target: overlay
+    # Start neato controller
     command: ros2 launch botvac_node botvac_base.launch.py
+
+  neato-cartographer:
+    extends: ros2-base
+    image: humble-ros-neato:overlay
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: overlay
+    # Start mapping using cartographer
+    command: ros2 launch cartographer_config cartographer.launch.py
