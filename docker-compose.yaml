@@ -16,6 +16,8 @@ services:
        - ROS_DOMAIN_ID=42
     devices:
       - "/dev/ttyACM0:/dev/ttyACM0"
+    # Configure usb device on the BCM controller
+    command: tpi usb device -n 2 --user root --password turing --host 192.168.2.171
 
   neato-base:
     extends: ros2-base 
