@@ -1,6 +1,6 @@
 ARG ROS_DISTRO=humble
  
-FROM osrf/ros:{ROS_DISTRO}-desktop as base
+FROM osrf/ros:${ROS_DISTRO}-desktop as base
 ENV ROS_DISTRO=${ROS_DISTRO}
 SHELL ["/bin/bash", "-c"]
 

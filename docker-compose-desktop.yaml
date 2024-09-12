@@ -1,12 +1,12 @@
 services:
   ros2-desktop:
-    image: osrf/ros:humble-desktop
+    image: humble-ros-desktop:overlay
     build:
       context: .
       dockerfile: ./dockerfile_desktop
       args:
         ROS_DISTRO: humble
-      target: base
+      target: overlay
     stdin_open: true
     tty: true
     network_mode: host
