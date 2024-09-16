@@ -24,7 +24,7 @@ services:
     image: humble-ros-neato:overlay
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./dockerfile_neato
       target: overlay
     # Start neato controller
     command: ros2 launch botvac_node botvac_base.launch.py
@@ -34,7 +34,17 @@ services:
     image: humble-ros-neato:overlay
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./dockerfile_neato
       target: overlay
     # Start mapping using cartographer
     command: ros2 launch cartographer_config cartographer.launch.py
+
+  neato-nav2:
+    extends: ros2-base
+    image: humble-ros-neato:overlay
+    build:
+      context: .
+      dockerfile: ./dockerfile_neato
+      target: overlay
+    # Start navigation using nav2
+    command: ros2 launch nav2_bringup_neato bringup_launch.py use_sim_time:=False autostart:=True map:=/root/ws/src/nav2_bringup_neato/maps/map.yaml
