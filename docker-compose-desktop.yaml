@@ -20,4 +20,23 @@ services:
     volumes:
       - $HOME/.Xauthority:/root/.Xauthority:ro
     # Configure usb device on the BCM controller
+
+  rviz2-cartographer:
+    extends: ros2-desktop
+    image: humble-ros-desktop:overlay
+    build:
+      context: .
+      dockerfile: ./dockerfile_desktop
+      target: overlay
+    # Start mapping using cartographer
     command: ros2 launch cartographer_config desktop_cartographer.launch.py
+
+  rviz2-nav:
+    extends: ros2-desktop
+    image: humble-ros-desktop:overlay
+    build:
+      context: .
+      dockerfile: ./dockerfile_desktop
+      target: overlay
+    # Start nav2 interface
+    command: ros2 launch nav2_bringup rviz_launch.py
