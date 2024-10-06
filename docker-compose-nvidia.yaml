@@ -1,0 +1,74 @@
+services:
+  riva-speech-base:
+    image: nvcr.io/nvidia/riva/riva-speech:2.16.0-l4t-aarch64
+    stdin_open: true
+    tty: true
+    init: true
+    ipc: host
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    environment:
+       - LD_PRELOAD=
+       - RIVA_API_KEY=
+       - RIVA_API_NGC_ORG=
+       - RIVA_EULA=
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"
+      - "/dev/snd:/dev/snd"
+    volumes:
+      - "/home/ubuntu/riva_quickstart_arm64_v2.16.0/model_repository:/data"
+    ports:
+      - "50051:50051"
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+      - "8888:8888"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint: [ "bash", "-c", "start-riva --riva-uri=0.0.0.0:50051 --asr_service=true --tts_service=true --nlp_service=true"]
+
+  nano-llm-base:
+    image: dustynv/nano_llm:overlay
+    build:
+      context: .
+      dockerfile: ./dockerfile_nvidia
+      args:
+        ROS_DISTRO: humble
+      target: overlay
+    network_mode: host
+    ipc: host
+    pid: host
+    stdin_open: true
+    tty: true
+    init: true
+    privileged: true
+    environment:
+       - HUGGINGFACE_TOKEN=XXXXXXXXXXXXXXXXXXX
+       - HUGGINGFACE_MODEL=meta-llama/Meta-Llama-3-8B-Instruct
+    devices:
+      - "/dev/snd:/dev/snd"
+      - "/dev/bus/usb:/dev/bus/usb"
+    volumes:
+      - "/tmp/argus_socket:/tmp/argus_socket"
+      - "/etc/enctune.conf:/etc/enctune.conf"
+      - "/etc/nv_tegra_release:/etc/nv_tegra_release"
+      - "/tmp/nv_jetson_model:/tmp/nv_jetson_model"
+      - "/var/run/dbus:/var/run/dbus"
+      - "/var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/home/ubuntu/jetson-containers/data:/data"
+      - "/run/jtop.sock:/run/jtop.sock"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: ros2 launch command_listener command_listener.launch.py 
