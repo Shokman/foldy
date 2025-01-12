@@ -10,6 +10,14 @@ Everything runs on top of an old an unexpensive Neato Botvac D5.
 
 This is a personal exploration project looking into distributed systems with hardware specific roles. This system is compared against a similar NUC or embebbed computer. We can differentiate advantages and disadvantages of the proposed system:
 
+Attempt | Turing PI | NUC | NUC + GPU | Jetson AGX |
+--- | --- | --- | --- | --- |
+Space (cm) | 21x21 | 12x12 | 25x15 | 10x10 |
+Power usage (W) | ~60 | 35 | 70 | 50 |
+Devices | 4 | 1 | 1 | 1 |
+Ethernet | 2 | 2 | 2 | 2 |
+Switch | Yes | No | No | No |
+
 
 ## Hardware configuration
 
